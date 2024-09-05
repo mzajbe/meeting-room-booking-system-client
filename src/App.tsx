@@ -1,4 +1,5 @@
-import MainLayouts from "./components/Layouts/MainLayouts"
+
+import Home from "./pages/home/Home"
 
 
 
@@ -6,7 +7,8 @@ function App() {
 
   return (
     <>
-      <MainLayouts></MainLayouts>
+      {/* <MainLayouts></MainLayouts> */}
+      <Home></Home>
     </>
   )
 }

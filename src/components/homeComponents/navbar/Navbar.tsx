@@ -1,6 +1,7 @@
 // import { Link } from "react-router-dom";
 
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isSticky, setIsSticky] = useState(false);
@@ -37,9 +38,9 @@ text-white ${isSticky ? "sticky top-0" : ""}`}
 
         {/* Navigation Links */}
         <nav className="flex space-x-4">
-          <a href="">Home</a>
-          <a href="">Meeting Rooms</a>
-          <a href="">About Us</a>
+        <Link to="/">Home</Link>
+          <Link to="/rooms">Meeting Rooms</Link>
+          <Link to="/about">About Us</Link>
           <a href="">Contact Us</a>
           <a href="">Login/Register</a>
         </nav>
