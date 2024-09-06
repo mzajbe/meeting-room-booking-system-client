@@ -41,8 +41,10 @@ text-white ${isSticky ? "sticky top-0" : ""}`}
         <Link to="/">Home</Link>
           <Link to="/rooms">Meeting Rooms</Link>
           <Link to="/about">About Us</Link>
-          <a href="">Contact Us</a>
-          <a href="">Login/Register</a>
+          <Link to="/contact-us">Contact Us</Link>
+          <Link to="/login">Login</Link>
+          {/* <Link to="/contact-us">SignUp</Link> */}
+          
         </nav>
 
         {/* User Icon/Dropdown */}

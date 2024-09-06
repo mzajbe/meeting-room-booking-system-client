@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const MeetingRoomsCard = ({ room }) => {
+const FeaturedRoomsCard = ({ room }) => {
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
       <img
@@ -12,15 +12,15 @@ const MeetingRoomsCard = ({ room }) => {
         <h2 className="text-xl font-bold text-gray-800">{room.name}</h2>
         <p className="text-gray-600">Capacity: {room.capacity}</p>
         <p className="text-gray-600">Price Per Slot: ${room.pricePerSlot}</p>
-        
-        <Link to={`/rooms/${room._id}`}>
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none">
-          See Details
-        </button>
+
+        <Link to="/rooms">
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none">
+            See Details
+          </button>
         </Link>
       </div>
     </div>
   );
 };
 
-export default MeetingRoomsCard;
+export default FeaturedRoomsCard;
