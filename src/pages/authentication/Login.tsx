@@ -1,11 +1,36 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
 const Login: React.FC = () => {
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  console.log(location.state);
+  
+
+  useEffect(() => {
+    // Show the toast notification if redirected from Register
+    if (location.state && location.state.fromRegister) {
+      toast.success('Registration successful! Please login.',{
+        toastId: 'success1',
+    });
+
+      // Clear the state to prevent the toast from showing again
+      navigate('/login', { replace: true, state: {} });
+
+    }
+  }, [location,navigate]);
+
   return (
+    
+
     <div className="bg-login-bg bg-cover text-white flex min-h-screen flex-col items-center pt-16 sm:justify-center sm:pt-0">
+      
       
       <div className="relative border border-white mt-12 w-full max-w-lg sm:mt-10 backdrop-blur-lg ">
         <div className="relative -mb-px h-px w-full bg-gradient-to-r from-transparent via-sky-300 to-transparent"></div>
