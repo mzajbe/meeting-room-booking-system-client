@@ -15,20 +15,20 @@ const Footer = () => {
                 <MailIcon className="w-6 h-6 text-gray-400 mr-2" />  
                 <a  
                   href="mailto:info@example.com"  
-                  className="hover:text-gray-200"  
+                  className="hover:text-customAccent1"  
                 >  
                   info@example.com  
                 </a>  
               </li>  
               <li className="flex items-center">  
                 <PhoneIcon className="w-6 h-6 text-gray-400 mr-2" />  
-                <a href="tel:+15551234567" className="hover:text-gray-200">  
+                <a href="tel:+15551234567" className="hover:text-customAccent1">  
                   +1 (555) 123-4567  
                 </a>  
               </li>  
               <li className="flex items-center">  
                 <MapPin className="w-6 h-6 text-gray-400 mr-2" />  
-                <address className="hover:text-gray-200">  
+                <address className="hover:text-customAccent1">  
                   123 Main Street, Anytown, CA 12345  
                 </address>  
               </li>  
@@ -44,7 +44,7 @@ const Footer = () => {
                   href="https://www.facebook.com/"  
                   target="_blank"  
                   rel="noopener noreferrer"  
-                  className="hover:text-gray-200"  
+                  className="hover:text-customAccent1"  
                 >  
                   <Facebook  className="w-6 h-6" />  
                 </a>  
@@ -54,7 +54,7 @@ const Footer = () => {
                   href="https://www.twitter.com/"  
                   target="_blank"  
                   rel="noopener noreferrer"  
-                  className="hover:text-gray-200"  
+                  className="hover:text-customAccent1"  
                 >  
                   <Facebook className="w-6 h-6" />  
                 </a>  
@@ -64,7 +64,7 @@ const Footer = () => {
                   href="https://www.instagram.com/"  
                   target="_blank"  
                   rel="noopener noreferrer"  
-                  className="hover:text-gray-200"  
+                  className="hover:text-customAccent1"  
                 >  
                   <Facebook className="w-6 h-6" />  
                 </a>  
@@ -79,13 +79,13 @@ const Footer = () => {
               <li>  
                 <a  
                   href="/privacy-policy"  
-                  className="hover:text-gray-200"  
+                  className="hover:text-customAccent1"  
                 >  
                   Privacy Policy  
                 </a>  
               </li>  
               <li>  
-                <a href="/terms-of-service" className="hover:text-gray-200">  
+                <a href="/terms-of-service" className="hover:text-customAccent1">  
                   Terms of Service  
                 </a>  
               </li>  

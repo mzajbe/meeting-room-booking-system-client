@@ -8,10 +8,14 @@ module.exports = {
           foreground: "#FFFFFF",
         },
         customAccent1: {
-          DEFAULT: "#4F1787",
+          DEFAULT: "#16423C",
           foreground: "#FFFFFF",
         },
         customAccent2: {
+          DEFAULT: "#6A9C89",
+          foreground: "#FFFFFF",
+        },
+        customAccent3: {
           DEFAULT: "#84a98c",
           foreground: "#FFFFFF",
         },

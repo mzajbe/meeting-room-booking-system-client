@@ -5,7 +5,6 @@ import HowItWorks from "../../components/homeComponents/howItWorks/HowItWorks";
 import OfficeLocation from "../../components/homeComponents/officeLoacation/OfficeLocation";
 import ServiceAdvertisement from "../../components/homeComponents/serviceAdvertisement/ServiceAdvertisement";
 import WhyChooseUs from "../../components/homeComponents/whyChooseUs/WhyChooseUs";
-import Footer from "../../components/shared/footer/Footer";
 
 
 const Home = () => {
@@ -18,7 +17,7 @@ const Home = () => {
             <WhyChooseUs></WhyChooseUs>
             <HowItWorks></HowItWorks>
             <CustomerTestimonials></CustomerTestimonials>
-            <Footer></Footer>
+            
         </div>
     );
 };

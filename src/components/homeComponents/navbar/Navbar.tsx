@@ -27,8 +27,7 @@ const Navbar = () => {
   return (
     <header
       ref={navbarRef}
-      className={`bg-customPrimary 
-text-white ${isSticky ? "sticky top-0" : ""}`}
+      className={`bg-customPrimary text-white ${isSticky ? "sticky top-0 z-50" : ""}`}
     >
       <div className="container mx-auto flex justify-between items-center p-4">
         {/* Logo/System Name */}
@@ -38,13 +37,12 @@ text-white ${isSticky ? "sticky top-0" : ""}`}
 
         {/* Navigation Links */}
         <nav className="flex space-x-4">
-        <Link to="/">Home</Link>
+          <Link to="/">Home</Link>
           <Link to="/rooms">Meeting Rooms</Link>
           <Link to="/about">About Us</Link>
           <Link to="/contact-us">Contact Us</Link>
           <Link to="/login">Login</Link>
           {/* <Link to="/contact-us">SignUp</Link> */}
-          
         </nav>
 
         {/* User Icon/Dropdown */}

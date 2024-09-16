@@ -56,11 +56,11 @@ const MeetingRooms = () => {
             placeholder="Search rooms..."
             value={searchTerm}
             onChange={handleSearch}
-            className="px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 w-64"
+            className="px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-customAccent3 w-64"
           />
           <select
             onChange={handleSort}
-            className="px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-customAccent3"
           >
             <option value="ascending">Price: Low to High</option>
             <option value="descending">Price: High to Low</option>
@@ -74,14 +74,14 @@ const MeetingRooms = () => {
             placeholder="Min Capacity"
             value={filterCapacity || ""}
             // onChange={(e) => setFilterCapacity(Number(e.target.value))}
-            className="px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-customAccent3"
           />
           <input
             type="number"
             placeholder="Max Price"
             value={filterPrice || ""}
             // onChange={(e) => setFilterPrice(Number(e.target.value))}
-            className="px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-customAccent3"
           />
         </div>
       </div>
