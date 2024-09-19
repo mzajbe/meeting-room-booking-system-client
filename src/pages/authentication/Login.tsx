@@ -4,8 +4,12 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useLoginMutation } from "../../redux/features/auth/authApi";
+import { useAppDispatch } from "../../redux/hooks";
+import { setUser } from "../../redux/features/authSlice";
+import { verifyToken } from "../../utils/verifyToken";
 
 const Login: React.FC = () => {
+  const dispatch = useAppDispatch();
   const { register, handleSubmit } = useForm({
     defaultValues:{
       email:'cosmos@gmail.com',
@@ -34,12 +38,22 @@ const Login: React.FC = () => {
     }
   }, [location, navigate]);
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const userInfo = {
       email: data.email,
       password:data.password,
     }
-    login(userInfo);
+    const res = await login(userInfo).unwrap();
+    // console.log(res);
+
+
+    const user = verifyToken(res.token);
+    console.log(user);
+    
+    
+
+    dispatch(setUser({user:user,token:res.token}));
+    
     
   };
 

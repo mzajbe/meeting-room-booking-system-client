@@ -8,6 +8,7 @@ import Login from "../pages/authentication/Login";
 import RoomDetails from "../pages/roomDetails/RoomDetails";
 import Register from "../pages/authentication/Register";
 import BookingsPage from "../pages/bookings/BookingsPage";
+import ProtectedRoute from "../components/Layouts/ProtectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -24,7 +25,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/rooms/:id",
-        element:<RoomDetails></RoomDetails> ,
+        element:(
+          <ProtectedRoute>
+            <RoomDetails></RoomDetails>
+          </ProtectedRoute>
+        ),
       },
       {
         path:"/about",
