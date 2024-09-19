@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useSignUpMutation } from "../../redux/api/baseApi";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 
 
@@ -58,6 +59,9 @@ const Register = () => {
 
     } catch (error) {
       console.error("Failed to sign up:", error);
+      toast.success("Registration failed!", {
+        toastId: "failed",
+      });
     }
   };
 

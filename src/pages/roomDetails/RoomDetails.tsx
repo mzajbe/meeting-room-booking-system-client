@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useFetchRoomsQuery } from "../../redux/api/baseApi";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -108,9 +108,12 @@ const RoomDetails = () => {
           </div>
 
           {/* Add to Cart Button */}
+          <Link to="/bookings">
           <button className="bg-customAccent2 hover:bg-customAccent1 text-white font-bold py-3 px-6 rounded-full w-full">
             Book Now
           </button>
+          </Link>
+          
         </div>
       </div>
     </div>
