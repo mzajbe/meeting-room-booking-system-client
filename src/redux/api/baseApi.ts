@@ -10,6 +10,26 @@ export const baseApi = createApi({
     fetchRooms: builder.query({
       query: () => "/rooms",
     }),
+    createRoom: builder.mutation({
+      query: (newRoom) => ({
+        url: "/rooms",
+        method: "POST",
+        body: newRoom,
+      }),
+    }),
+    updateRoom: builder.mutation({
+      query: ({ id, ...updatedRoom }) => ({
+        url: `/rooms/${id}`,
+        method: "PUT",
+        body: updatedRoom,
+      }),
+    }),
+    deleteRoom: builder.mutation({
+      query: (id) => ({
+        url: `/rooms/${id}`,
+        method: "DELETE",
+      }),
+    }),
     signUp: builder.mutation({
       query: (userData) => ({
         url: "/auth/signup", // API endpoint for sign-up
@@ -31,4 +51,4 @@ export const baseApi = createApi({
   }),
 });
 
-export const { useFetchRoomsQuery, useSignUpMutation,useFetchAvailableSlotsQuery,useSubmitBookingMutation } = baseApi;
+export const { useFetchRoomsQuery, useSignUpMutation,useFetchAvailableSlotsQuery,useSubmitBookingMutation,useCreateRoomMutation,useUpdateRoomMutation,useDeleteRoomMutation } = baseApi;
