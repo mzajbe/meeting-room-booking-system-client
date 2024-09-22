@@ -1,10 +1,11 @@
+import BookingForm from "./BookingForm";
 
 
 const BookingsPage = () => {
     return (
-        <div>
-            <h1>this is booking page</h1>
-        </div>
+        <div className="container mx-auto py-8">
+      <BookingForm></BookingForm>
+    </div>
     );
 };
 

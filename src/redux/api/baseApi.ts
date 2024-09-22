@@ -17,7 +17,18 @@ export const baseApi = createApi({
         body: userData,
       }),
     }),
+    fetchAvailableSlots: builder.query({
+      query: (date) => `/slots?date=${date}`,
+    }),
+
+    submitBooking: builder.mutation({
+      query: (bookingData) => ({
+        url: "/bookings",
+        method: "POST",
+        body: bookingData,
+      }),
+    }),
   }),
 });
 
-export const { useFetchRoomsQuery, useSignUpMutation } = baseApi;
+export const { useFetchRoomsQuery, useSignUpMutation,useFetchAvailableSlotsQuery,useSubmitBookingMutation } = baseApi;

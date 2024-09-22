@@ -108,7 +108,7 @@ const RoomDetails = () => {
           </div>
 
           {/* Add to Cart Button */}
-          <Link to="/bookings">
+          <Link to="/booking">
           <button className="bg-customAccent2 hover:bg-customAccent1 text-white font-bold py-3 px-6 rounded-full w-full">
             Book Now
           </button>

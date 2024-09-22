@@ -9,6 +9,8 @@ import RoomDetails from "../pages/roomDetails/RoomDetails";
 import Register from "../pages/authentication/Register";
 import BookingsPage from "../pages/bookings/BookingsPage";
 import ProtectedRoute from "../components/Layouts/ProtectedRoute";
+import Dashboard from "../pages/dashboard/Dashboard";
+import DashboardTest from "../pages/dashboard/DashboardTest";
 
 const router = createBrowserRouter([
   {
@@ -48,8 +50,12 @@ const router = createBrowserRouter([
         element: <Register></Register>,
       },
       {
-        path:"/bookings",
+        path:"/booking",
         element: <BookingsPage></BookingsPage>,
+      },
+      {
+        path:"/dashboard",
+        element: <DashboardTest></DashboardTest>,
       },
     ],
   },
