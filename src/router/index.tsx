@@ -11,6 +11,10 @@ import BookingsPage from "../pages/bookings/BookingsPage";
 import ProtectedRoute from "../components/Layouts/ProtectedRoute";
 import Dashboard from "../pages/dashboard/Dashboard";
 import DashboardTest from "../pages/dashboard/DashboardTest";
+import RoomList from "../components/dashboardCoponents/RoomList";
+import CreateSlot from "../pages/slotManagement/CreateSlot";
+import BookingsAction from "../pages/bookingManagement/BookingsAction";
+import SlotManagement from "../pages/slotManagement/SlotManagement";
 
 const router = createBrowserRouter([
   {
@@ -56,6 +60,18 @@ const router = createBrowserRouter([
       {
         path:"/dashboard",
         element: <Dashboard></Dashboard>,
+      },
+      {
+        path:"/create-rooms",
+        element:<RoomList></RoomList>,
+      },
+      {
+        path:"/create-slots",
+        element:<SlotManagement></SlotManagement>
+      },
+      {
+        path:"/booking-action",
+        element:<BookingsAction></BookingsAction>
       },
     ],
   },

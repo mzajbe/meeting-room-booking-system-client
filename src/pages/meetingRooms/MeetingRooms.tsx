@@ -8,6 +8,7 @@ type TRoom = {
     description:string;
     capacity:number;
     price:number;
+    isDeleted: boolean;
 }
 
 
@@ -31,15 +32,14 @@ const MeetingRooms = () => {
   };
 
   const filteredRooms = rooms?.data
-    ?.filter((room : TRoom) =>
+    ?.filter((room: TRoom) => !room.isDeleted) // Filter out rooms that are soft deleted
+    ?.filter((room: TRoom) =>
       room.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       room.description.toLowerCase().includes(searchTerm.toLowerCase())
     )
-    ?.filter((room:TRoom) =>
-      filterCapacity ? room.capacity >= filterCapacity : true
-    )
-    ?.filter((room:TRoom) => (filterPrice ? room.price <= filterPrice : true))
-    ?.sort((a : TRoom, b :TRoom) =>
+    ?.filter((room: TRoom) => (filterCapacity ? room.capacity >= filterCapacity : true))
+    ?.filter((room: TRoom) => (filterPrice ? room.price <= filterPrice : true))
+    ?.sort((a: TRoom, b: TRoom) =>
       sortOrder === "ascending" ? a.price - b.price : b.price - a.price
     );
 
@@ -67,20 +67,20 @@ const MeetingRooms = () => {
           </select>
         </div>
 
-        {/* Add Capacity and Price Filter */}
+        {/* Capacity and Price Filters */}
         <div className="flex items-center space-x-4">
           <input
             type="number"
             placeholder="Min Capacity"
             value={filterCapacity || ""}
-            // onChange={(e) => setFilterCapacity(Number(e.target.value))}
+            onChange={(e) => setFilterCapacity(Number(e.target.value))}
             className="px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-customAccent3"
           />
           <input
             type="number"
             placeholder="Max Price"
             value={filterPrice || ""}
-            // onChange={(e) => setFilterPrice(Number(e.target.value))}
+            onChange={(e) => setFilterPrice(Number(e.target.value))}
             className="px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-customAccent3"
           />
         </div>
@@ -88,7 +88,7 @@ const MeetingRooms = () => {
 
       {/* Room Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-        {filteredRooms?.map((room:TRoom) => (
+        {filteredRooms?.map((room: TRoom) => (
           <MeetingRoomsCard key={room._id} room={room} />
         ))}
       </div>

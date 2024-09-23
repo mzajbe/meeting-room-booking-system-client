@@ -37,8 +37,35 @@ export const baseApi = createApi({
         body: userData,
       }),
     }),
+    fetchSlots: builder.query({
+      query: () => "/slots/availability",
+    }),
+
+    createSlot: builder.mutation({
+      query: (newSlot) => ({
+        url: "/slots/create",
+        method: "POST",
+        body: newSlot,
+      }),
+    }),
+
+    updateSlot: builder.mutation({
+      query: ({ id, ...updatedSlot }) => ({
+        url: `/slots/${id}`,
+        method: "PUT",
+        body: updatedSlot,
+      }),
+    }),
+
+    deleteSlot: builder.mutation({
+      query: (id) => ({
+        url: `/slots/${id}`,
+        method: "DELETE",
+      }),
+    }),
+
     fetchAvailableSlots: builder.query({
-      query: (date) => `/slots?date=${date}`,
+      query: (date) => `/slots/availability?date=${date}`,
     }),
 
     submitBooking: builder.mutation({
@@ -51,4 +78,16 @@ export const baseApi = createApi({
   }),
 });
 
-export const { useFetchRoomsQuery, useSignUpMutation,useFetchAvailableSlotsQuery,useSubmitBookingMutation,useCreateRoomMutation,useUpdateRoomMutation,useDeleteRoomMutation } = baseApi;
+export const {
+  useFetchRoomsQuery,
+  useSignUpMutation,
+  useFetchAvailableSlotsQuery,
+  useSubmitBookingMutation,
+  useCreateRoomMutation,
+  useUpdateRoomMutation,
+  useDeleteRoomMutation,
+  useFetchSlotsQuery,
+  useCreateSlotMutation,
+  useUpdateSlotMutation,
+  useDeleteSlotMutation,
+} = baseApi;

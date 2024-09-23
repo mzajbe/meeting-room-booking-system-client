@@ -1,87 +1,85 @@
-import { useState } from "react";
-import { useDeleteRoomMutation, useFetchRoomsQuery, useUpdateRoomMutation } from "../../redux/api/baseApi";
-import RoomForm from "./RoomForm";
+import { useState } from "react";  
+import { useDeleteRoomMutation, useFetchRoomsQuery, useUpdateRoomMutation } from "../../redux/api/baseApi";  
+import RoomForm from "./RoomForm";  
 
-const RoomList = () => {
-  // Fetch rooms data and handle loading
-  const { data, isLoading, refetch } = useFetchRoomsQuery({});
-  const rooms = data?.data?.filter(room => !room.isDeleted) || []; // Filter out soft-deleted rooms
-  const [deleteRoom] = useDeleteRoomMutation();
-  const [updateRoom] = useUpdateRoomMutation();
-  const [editingRoom, setEditingRoom] = useState(null);
+const RoomList = () => {  
+  const { data, isLoading, refetch } = useFetchRoomsQuery({});  
+  const rooms = data?.data?.filter(room => !room.isDeleted) || [];  
+  const [updateRoom] = useUpdateRoomMutation();  
+  const [editingRoom, setEditingRoom] = useState(null);  
 
-  if (isLoading) return <div>Loading...</div>;
+  const [localRooms, setLocalRooms] = useState(rooms); 
 
-  const handleDelete = async (_id: string) => {
-    console.log("Deleting room with ID:", _id); // Log the _id to check  
+
+  if (isLoading) return <div className="text-center">Loading...</div>;  
+
+  const handleDelete = async (_id) => {  
     if (confirm('Are you sure you want to delete this room?')) {  
       try {  
-        // Perform a soft delete by updating the room's isDeleted field to true  
-        await updateRoom({ id: _id, isDeleted: true }).unwrap();  // Ensure proper payload format and unwrap mutation
-        refetch(); // Manually refetch the rooms to update the UI  
+        await updateRoom({ id: _id, isDeleted: true }).unwrap();  
+        // refetch(); 
+
+
+         // Update local room list without refetching
+        setLocalRooms(localRooms.filter(room => room._id !== _id));
+
+
+
+
       } catch (error) {  
         console.error('Failed to delete room:', error);  
       }  
     }  
-  };
+  };  
 
-  const handleUpdate = async (roomData) => {
-    try {
-      await updateRoom(roomData);  // Wait for the updateRoom mutation to finish
-      setEditingRoom(null); // Reset form after update
-      refetch(); // Manually refetch the rooms to update the UI
-    } catch (error) {
-      console.error('Failed to update room:', error);
-    }
-  };
+  const handleUpdate = async (roomData) => {  
+    const updatedRoom = { ...editingRoom, ...roomData }; // Merge existing room data with updated data  
+    const updatedRooms = rooms.map(room => room._id === updatedRoom._id ? updatedRoom : room); // Update local rooms state  
 
-  return (
-    <div>
-      {/* Pass onUpdate prop to RoomForm */}
-      <RoomForm editingRoom={editingRoom} setEditingRoom={setEditingRoom} onUpdate={handleUpdate} />
+    try {  
+      await updateRoom(roomData).unwrap();  
 
-      <table className="min-w-full mt-4 bg-white">
-        <thead>
-          <tr>
-            <th>Room Name</th>
-            <th>Room No.</th>
-            <th>Floor No.</th>
-            <th>Capacity</th>
-            <th>Price Per Slot</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-        {rooms.map((room) => {  
-  console.log("Room:", room); // Check the room values  
+      setLocalRooms(localRooms.map(room => room._id === updatedRoom._id ? updatedRoom : room));
+
+
+      setEditingRoom(null);  
+      // refetch(); // Optionally call refetch to ensure data is synced with the server  
+    } catch (error) {  
+      console.error('Failed to update room:', error);  
+    }  
+  };  
+
   return (  
-    <tr key={room.id} className="border-b">  
-      <td>{room.name}</td>  
-      <td>{room.roomNo}</td>  
-      <td>{room.floorNo}</td>  
-      <td>{room.capacity}</td>  
-      <td>{room.pricePerSlot}</td>  
-      <td>  
-        <button  
-          className="mr-2 text-blue-500"  
-          onClick={() => setEditingRoom(room)} // Set the room to edit in the form  
-        >  
-          Update  
-        </button>  
-        <button  
-          className="text-red-500"  
-          onClick={() => handleDelete(room._id)} // Trigger soft delete  
-        >  
-          Delete  
-        </button>  
-      </td>  
-    </tr>  
+    <div className="container mx-auto p-4">  
+      <RoomForm editingRoom={editingRoom} setEditingRoom={setEditingRoom} onUpdate={handleUpdate} />  
+      <h1 className="text-xl font-bold mb-4">Room List</h1>  
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">  
+        {rooms.map((room) => (  
+          <div key={room._id} className="bg-white border rounded shadow p-4 hover:shadow-lg transition duration-200">  
+            <h2 className="text-lg font-semibold">{room.name}</h2>  
+            <p><strong>Room No.:</strong> {room.roomNo}</p>  
+            <p><strong>Floor No.:</strong> {room.floorNo}</p>  
+            <p><strong>Capacity:</strong> {room.capacity}</p>  
+            <p><strong>Price Per Slot:</strong> ${room.pricePerSlot}</p>  
+            <div className="mt-2">  
+              <button  
+                className="mr-2 bg-blue-500 text-white py-1 px-2 rounded hover:bg-blue-600 transition duration-200"  
+                onClick={() => setEditingRoom(room)}  
+              >  
+                Edit  
+              </button>  
+              <button  
+                className="bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 transition duration-200"  
+                onClick={() => handleDelete(room._id)}  
+              >  
+                Delete  
+              </button>  
+            </div>  
+          </div>  
+        ))}  
+      </div>  
+    </div>  
   );  
-})}  
-        </tbody>
-      </table>
-    </div>
-  );
-};
+};  
 
 export default RoomList;
