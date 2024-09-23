@@ -76,7 +76,7 @@ const CustomerTestimonials = () => {
                 key={index}  
                 className={`w-4 h-4 rounded-full ${  
                   activeIndex === index  
-                    ? 'bg-blue-500'  
+                    ? 'bg-customAccent2'  
                     : 'bg-gray-300'  
                 }`}  
               />  
