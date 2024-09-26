@@ -1,7 +1,10 @@
-
 import { useState, useEffect } from "react";
-import hero1 from '../../../assets/images/hero-1.png';
-import hero2 from '../../../assets/images/hero-2.png';
+import hero1 from "../../../assets/images/hero-1.png";
+import hero2 from "../../../assets/images/hero-2.png";
+import { Link } from "react-router-dom";
+
+
+
 
 interface Slide {
   image: string;
@@ -50,6 +53,22 @@ const Hero = () => {
         <p className="text-white text-lg sm:text-xl ml-12">
           {slides[currentSlide].description}
         </p>
+
+        {/* <Link
+          className="mt-4 bg-customAccent2 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-customAccent3 transition duration-200 ml-12 z-10"
+          to="/rooms"
+        >
+          Book now
+        </Link> */}
+
+<Link
+  className="mt-4 bg-customAccent2 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-customAccent3 transition duration-200 ml-12 border-2 border-transparent hover:border-[rgb(37,189,138)] z-10"
+  to="/rooms"
+>
+  Book now
+</Link>
+
+
       </div>
 
       {/* <div className="flex-1 relative">
@@ -60,15 +79,15 @@ const Hero = () => {
         />
       </div> */}
 
-<div className="flex-1 relative">
-  <img
-    src={slides[currentSlide].image}
-    alt={slides[currentSlide].title}
-    className="animate-fade-in-float"
-    width="700" // Adjust the width as needed
-    height="700" // Adjust the height as needed
-  />
-</div>
+      <div className="flex-1 relative">
+        <img
+          src={slides[currentSlide].image}
+          alt={slides[currentSlide].title}
+          className="animate-fade-in-float"
+          width="700" // Adjust the width as needed
+          height="700" // Adjust the height as needed
+        />
+      </div>
 
       <div className="absolute inset-0 flex items-center justify-between p-4">
         <button
@@ -109,5 +128,3 @@ const Hero = () => {
 };
 
 export default Hero;
-
-  

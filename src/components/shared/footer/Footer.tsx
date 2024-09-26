@@ -1,4 +1,4 @@
-import {MailIcon, PhoneIcon, MapPin, Facebook } from "lucide-react";
+import {MailIcon, PhoneIcon, MapPin, Facebook,Twitter,Instagram   } from "lucide-react";
 
 
 const Footer = () => {
@@ -56,7 +56,7 @@ const Footer = () => {
                   rel="noopener noreferrer"  
                   className="hover:text-customAccent1"  
                 >  
-                  <Facebook className="w-6 h-6" />  
+                  <Twitter className="w-6 h-6" />  
                 </a>  
               </li>  
               <li>  
@@ -66,7 +66,7 @@ const Footer = () => {
                   rel="noopener noreferrer"  
                   className="hover:text-customAccent1"  
                 >  
-                  <Facebook className="w-6 h-6" />  
+                  <Instagram className="w-6 h-6" />  
                 </a>  
               </li>  
             </ul>  
@@ -93,7 +93,7 @@ const Footer = () => {
           </div>  
         </div>  
         <div className="text-center mt-8">  
-          <p className="text-gray-400">&copy; 2023 Example Company. All rights reserved.</p>  
+          <p className="text-gray-400">&copy; 2024 Example Company. All rights reserved.</p>  
         </div>  
       </div>  
     </footer> 

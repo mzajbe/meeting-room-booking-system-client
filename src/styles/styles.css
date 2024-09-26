@@ -22,3 +22,17 @@
                     0 0 30px rgba(0, 255, 255, 0.2);
     }
   }
+
+
+
+  .border-glow {
+    border: 2px solid transparent;
+    border-image: linear-gradient(to right, rgba(255, 0, 0, 1), rgba(255, 255, 0, 1), rgba(0, 255, 0, 1), rgba(0, 0, 255, 1), rgba(255, 0, 0, 1)) 1 1;
+    border-image-slice: 1;
+    border-image-repeat: round;
+    transition: border-image-slice 0.5s ease-in-out;
+}
+
+.border-glow:hover {
+    border-image-slice: 0;
+}

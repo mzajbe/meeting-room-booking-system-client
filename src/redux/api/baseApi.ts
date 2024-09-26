@@ -7,8 +7,18 @@ export const baseApi = createApi({
     credentials: "include",
   }),
   endpoints: (builder) => ({
+    fetchUserById: builder.query({
+      query: (userId) => `/auth/user/${userId}`,
+    }),
+    fetchBookingsByUser: builder.query({
+      query: (userId) => `/bookings/user/${userId}`,
+    }),
     fetchRooms: builder.query({
       query: () => "/rooms",
+    }),
+
+    fetchRoom: builder.query({
+      query: (roomId) => `/rooms/${roomId}`, // Add this line to fetch a single room
     }),
     createRoom: builder.mutation({
       query: (newRoom) => ({
@@ -70,16 +80,48 @@ export const baseApi = createApi({
 
     submitBooking: builder.mutation({
       query: (bookingData) => ({
-        url: "/bookings",
+        url: "/bookings/create",
         method: "POST",
         body: bookingData,
       }),
+    }),
+    // Booking Management Endpoints
+    fetchBookings: builder.query({
+      query: () => "/bookings/getb",
+      providesTags: ["Bookings"],
+    }),
+
+    approveBooking: builder.mutation({
+      query: (bookingId) => ({
+        url: `/bookings/bookings/${bookingId}`,
+        method: "PUT",
+        body: { isConfirmed: "confirmed" },
+      }),
+      invalidatesTags: ["Bookings"],
+    }),
+
+    rejectBooking: builder.mutation({
+      query: (bookingId) => ({
+        url: `/bookings/bookings/reject/${bookingId}`,
+        method: "PUT",
+      }),
+      invalidatesTags: ["Bookings"],
+    }),
+    deleteBooking: builder.mutation({
+      query: (bookingId) => ({
+        url: `/bookings/${bookingId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Bookings"],
     }),
   }),
 });
 
 export const {
+  useFetchUserByIdQuery,
+  useFetchBookingsByUserQuery,
   useFetchRoomsQuery,
+  useFetchRoomQuery,
   useSignUpMutation,
   useFetchAvailableSlotsQuery,
   useSubmitBookingMutation,
@@ -90,4 +132,9 @@ export const {
   useCreateSlotMutation,
   useUpdateSlotMutation,
   useDeleteSlotMutation,
+
+  useFetchBookingsQuery,
+  useApproveBookingMutation,
+  useRejectBookingMutation,
+  useDeleteBookingMutation,
 } = baseApi;

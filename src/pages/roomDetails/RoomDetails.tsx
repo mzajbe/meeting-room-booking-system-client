@@ -3,35 +3,30 @@ import { useFetchRoomsQuery } from "../../redux/api/baseApi";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-// import { useDispatch } from "react-redux";
 
 const RoomDetails = () => {
   const { id } = useParams<{ id: string }>();
   const { data, isLoading } = useFetchRoomsQuery({});
-  // const dispatch = useDispatch();
-
+  
   if (isLoading) {
     return <p>Loading...</p>;
   }
 
   const rooms = data?.data;
-
   const room = rooms.find((room) => room._id === id);
 
-  console.log(room);
-
   if (!room) {
-    return <p>room not found.</p>;
+    return <p>Room not found.</p>;
   }
 
-  // Slider settings for react-slick
+  // Adjust slider settings based on the number of images
   const sliderSettings = {
-    dots: true,
-    infinite: true,
+    dots: room.image && room.image.length > 1, // Show dots only if more than one image
+    infinite: room.image && room.image.length > 1, // Enable infinite scrolling only if more than one image
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    arrows: true,
+    arrows: room.image && room.image.length > 1, // Show arrows only if more than one image
   };
 
   return (
@@ -60,11 +55,7 @@ const RoomDetails = () => {
           )}
 
           <p className="text-gray-700">{room.description}</p>
-          {/* <div>
-            <p className="text-gray-600 mr-2">
-              Amenities: {room.amenities.join(", ")}
-            </p>
-          </div> */}
+
           <div>
             <p className="text-gray-600 mr-2 font-bold">Amenities:</p>
             <table className="table-auto w-full mt-2">
@@ -88,8 +79,7 @@ const RoomDetails = () => {
 
             <div className="flex flex-wrap justify-between mb-4">
               <p className="text-gray-700 mr-2">
-                <span className="font-semibold">Room Capacity:</span>{" "}
-                {room.capacity}
+                <span className="font-semibold">Room Capacity:</span> {room.capacity}
               </p>
               <p className="text-gray-700 mr-2">
                 <span className="font-semibold">Room No:</span> {room.roomNo}
@@ -107,13 +97,12 @@ const RoomDetails = () => {
             </div>
           </div>
 
-          {/* Add to Cart Button */}
-          <Link to="/booking">
-          <button className="bg-customAccent2 hover:bg-customAccent1 text-white font-bold py-3 px-6 rounded-full w-full">
-            Book Now
-          </button>
+          {/* Book Now Button */}
+          <Link to={`/booking/${room._id}`}>
+            <button className="bg-customAccent2 hover:bg-customAccent1 text-white font-bold py-3 px-6 rounded-full w-full">
+              Book Now
+            </button>
           </Link>
-          
         </div>
       </div>
     </div>

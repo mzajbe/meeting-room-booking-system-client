@@ -71,7 +71,7 @@ const AboutUs = () => {
           >  
             <h2 className="text-2xl font-bold mb-4">Our Story</h2>  
             <p className="text-lg text-gray-600">  
-            Founded in 2024, [Company Name] emerged from a vision to revolutionize the way meeting rooms are booked. With a passion for innovation and a commitment to customer satisfaction, we have grown into a leading provider of meeting room booking solutions. 
+            Founded in 2024, Meeting Nest emerged from a vision to revolutionize the way meeting rooms are booked. With a passion for innovation and a commitment to customer satisfaction, we have grown into a leading provider of meeting room booking solutions. 
             </p>  
           </motion.div>  
   

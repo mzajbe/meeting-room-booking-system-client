@@ -10,12 +10,7 @@ import { verifyToken } from "../../utils/verifyToken";
 
 const Login: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { register, handleSubmit } = useForm({
-    defaultValues:{
-      email:'cosmos@gmail.com',
-      password:'cosmos'
-    }
-  });
+  const { register, handleSubmit } = useForm();
 
   const [login,{data,error}] = useLoginMutation();
 
@@ -87,7 +82,7 @@ const Login: React.FC = () => {
                       type="text"
                       id="email"
                       {...register("email")}
-                      placeholder="Username"
+                      placeholder="email"
                       autoComplete="off"
                       className="block w-full border-0 bg-transparent p-0 text-sm file:my-1 file:rounded-full file:border-0 file:bg-accent file:px-4 file:py-2 file:font-medium placeholder:text-muted-foreground/90 focus:outline-none focus:ring-0 sm:leading-7 text-foreground"
                     />

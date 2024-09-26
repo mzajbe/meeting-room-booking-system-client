@@ -1,127 +1,139 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
-import DatePicker from "react-datepicker";
-import 'react-datepicker/dist/react-datepicker.css';
-import { selectSlot } from "../../redux/features/bookingSlice";
-import { useForm } from "react-hook-form";
-import { useFetchAvailableSlotsQuery, useSubmitBookingMutation } from "../../redux/api/baseApi";
+import "react-datepicker/dist/react-datepicker.css";
+import {
+  useFetchAvailableSlotsQuery,
+  useSubmitBookingMutation,
+  useFetchUserByIdQuery, // Import the new hook
+} from "../../redux/api/baseApi";
+import { toast } from "react-toastify";
 
+const BookingForm = ({ roomId }) => {
+  const authUser = useSelector((state) => state.auth.user); // Get the user from auth (with userId)
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedSlot, setSelectedSlot] = useState("");
 
-const BookingForm = () => {
-    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const { user } = useSelector((state: RootState) => state.auth);
-  const { selectedSlot } = useSelector((state: RootState) => state.booking);
-  const dispatch = useDispatch();
-
-
-  // Fetch available slots based on the selected date
-  const { data: availableSlots = [], isLoading } = useFetchAvailableSlotsQuery(selectedDate?.toISOString().split('T')[0] || '');
-
-  const [submitBooking, { isLoading: isSubmitting }] = useSubmitBookingMutation();
-
-  const { register, handleSubmit } = useForm({
-    defaultValues: {
-      name: user?.name,
-      email: user?.email,
-      phone: user?.phone,
-      address: user?.address,
-    },
+  // Fetch full user details from backend using userId from auth
+  const { data: user, isLoading: userLoading } = useFetchUserByIdQuery(authUser.userId);
+  
+  const {
+    data: availableSlots,
+    refetch,
+    isFetching,
+  } = useFetchAvailableSlotsQuery(selectedDate, {
+    skip: !selectedDate, // Skip query if date isn't selected
   });
 
-  const onSubmit = (formData: any) => {
+  const [submitBooking] = useSubmitBookingMutation();
+
+  // Fetch available slots when a new date is selected
+  useEffect(() => {
+    if (selectedDate) {
+      refetch();
+    }
+  }, [selectedDate, refetch]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
     const bookingData = {
       date: selectedDate,
-      slotId: selectedSlot,
-      userInfo: formData,
+      slots: [selectedSlot], // Pass selected slot ID
+      room: roomId, // Room ID passed as a prop
+      user: authUser.userId, // Pass the logged-in user's ID from auth
     };
-    submitBooking(bookingData);
+
+    try {
+      await submitBooking(bookingData).unwrap();
+      toast.success("Booking successfully created");
+    } catch (error) {
+      console.error("Booking error:", error); // Log the error for debugging
+      toast.error("Error creating booking");
+    }
   };
 
-    return (
-        <div className="p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-xl font-semibold mb-4">Booking Form</h2>
+  // Handle loading state for user details
+  if (userLoading) {
+    return <p>Loading user details...</p>;
+  }
 
-      {/* Date Picker */}
-      <div className="mb-4">
-        <label className="block text-gray-700">Select Booking Date:</label>
-        <DatePicker 
-          selected={selectedDate} 
-          onChange={date => setSelectedDate(date)} 
-          className="mt-2 p-2 border border-gray-300 rounded-md" 
-        />
-      </div>
+  console.log(user);
+  
 
-      {/* Available Time Slots */}
-      {selectedDate && (
-        <div className="mb-4">
-          <label className="block text-gray-700">Available Time Slots:</label>
-          <div className="grid grid-cols-3 gap-4 mt-2">
-            {isLoading ? (
-              <p>Loading slots...</p>
-            ) : availableSlots.length === 0 ? (
-              <p>No slots available</p>
+  return (
+    <div className="max-w-lg mx-auto bg-white p-8 shadow-lg rounded-lg">
+      <h2 className="text-3xl font-bold mb-6 text-gray-800 text-center">Book This Room</h2>
+
+      <form onSubmit={handleSubmit}>
+        {/* Date Selection */}
+        <div className="mb-6">
+          <label className="block mb-2 text-sm font-medium text-gray-700">Select Date</label>
+          <input
+            type="date"
+            value={selectedDate}
+            onChange={(e) => setSelectedDate(e.target.value)}
+            required
+            className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        {/* Available Slots */}
+        {selectedDate && (
+          <div className="mb-6">
+            <label className="block mb-2 text-sm font-medium text-gray-700">Available Time Slots</label>
+            {isFetching ? (
+              <p className="text-sm text-gray-600">Loading slots...</p>
+            ) : availableSlots?.data.length > 0 ? (
+              <select
+                value={selectedSlot}
+                onChange={(e) => setSelectedSlot(e.target.value)}
+                required
+                className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">Select Time Slot</option>
+                {availableSlots?.data.map((slot) => (
+                  <option key={slot._id} value={slot._id}>
+                    {`${slot.startTime} - ${slot.endTime}`}
+                  </option>
+                ))}
+              </select>
             ) : (
-              availableSlots.map((slot) => (
-                <button
-                  key={slot._id}
-                  className={`p-2 border border-gray-300 rounded-md ${selectedSlot === slot._id ? 'bg-blue-500 text-white' : ''}`}
-                  onClick={() => dispatch(selectSlot(slot._id))}
-                >
-                  {slot.startTime} - {slot.endTime}
-                </button>
-              ))
+              <p className="text-sm text-red-400">No available slots for the selected date.</p>
             )}
           </div>
-        </div>
-      )}
+        )}
 
-      {/* User Information Form */}
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mb-4">
-          <label className="block text-gray-700">Name:</label>
+        {/* Pre-filled User Information */}
+        <div className="mb-6">
+          <label className="block mb-2 text-sm font-medium text-gray-700">Your Name</label>
           <input
-            {...register('name')}
             type="text"
-            className="mt-2 p-2 border border-gray-300 rounded-md w-full"
+            value={user?.data.name || ""}
+            disabled
+            className="w-full p-3 border border-gray-300 rounded bg-gray-100"
           />
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-700">Email:</label>
+
+        <div className="mb-6">
+          <label className="block mb-2 text-sm font-medium text-gray-700">Your Email</label>
           <input
-            {...register('email')}
             type="email"
-            className="mt-2 p-2 border border-gray-300 rounded-md w-full"
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700">Phone:</label>
-          <input
-            {...register('phone')}
-            type="tel"
-            className="mt-2 p-2 border border-gray-300 rounded-md w-full"
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700">Address:</label>
-          <input
-            {...register('address')}
-            type="text"
-            className="mt-2 p-2 border border-gray-300 rounded-md w-full"
+            value={user?.data.email || ""}
+            disabled
+            className="w-full p-3 border border-gray-300 rounded bg-gray-100"
           />
         </div>
 
         {/* Submit Button */}
         <button
           type="submit"
-          className={`p-2 bg-blue-500 text-white rounded-md ${isSubmitting ? 'opacity-50' : ''}`}
-          disabled={isSubmitting || !selectedSlot}
+          className="w-full bg-customAccent2 text-white font-semibold px-4 py-3 rounded hover:bg-customAccent1 transition duration-200"
         >
-          {isSubmitting ? 'Processing...' : 'Submit Booking'}
+          Submit Booking
         </button>
       </form>
     </div>
-    );
+  );
 };
 
 export default BookingForm;

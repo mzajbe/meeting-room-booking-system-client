@@ -15,6 +15,7 @@ import RoomList from "../components/dashboardCoponents/RoomList";
 import CreateSlot from "../pages/slotManagement/CreateSlot";
 import BookingsAction from "../pages/bookingManagement/BookingsAction";
 import SlotManagement from "../pages/slotManagement/SlotManagement";
+import MyBookingsPage from "../pages/myBookings/MyBookingsPage";
 
 const router = createBrowserRouter([
   {
@@ -54,7 +55,7 @@ const router = createBrowserRouter([
         element: <Register></Register>,
       },
       {
-        path:"/booking",
+        path:"/booking/:roomId",
         element: <BookingsPage></BookingsPage>,
       },
       {
@@ -73,6 +74,10 @@ const router = createBrowserRouter([
         path:"/booking-action",
         element:<BookingsAction></BookingsAction>
       },
+      {
+        path:"/my-bookings",
+        element:<MyBookingsPage></MyBookingsPage>
+      }
     ],
   },
 ]);
