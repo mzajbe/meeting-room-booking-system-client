@@ -4,6 +4,7 @@ import {
   useFetchSlotsQuery,
   useUpdateSlotMutation,
 } from "../../redux/api/baseApi";
+import { toast } from "react-toastify";
 
 const SlotsListTable = () => {
   const { data: slots, isLoading, error } = useFetchSlotsQuery({});
@@ -21,7 +22,7 @@ const SlotsListTable = () => {
   const handleDelete = async (id) => {
     try {
       await deleteSlot(id);
-      // Optionally refetch or show success message
+      toast.success('slot deleted successfully');
     } catch (error) {
       console.error("Error deleting slot:", error);
     }

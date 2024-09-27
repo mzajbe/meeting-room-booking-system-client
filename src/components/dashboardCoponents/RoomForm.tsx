@@ -3,8 +3,19 @@ import {
   useCreateRoomMutation,
   useUpdateRoomMutation,
 } from "../../redux/api/baseApi";
+import { TRoom } from "../../types";
 
-const RoomForm = ({ editingRoom, setEditingRoom }) => {
+
+
+type TRoomFormProps = {
+  editingRoom:TRoom | null,
+  setEditingRoom:React.Dispatch<React.SetStateAction<TRoom | null>>;
+}
+
+const RoomForm: React.FC<TRoomFormProps> = ({
+  editingRoom,
+  setEditingRoom,
+}) => {
   const [formData, setFormData] = useState({
     name: "",
     roomNo: "",
@@ -36,7 +47,7 @@ const RoomForm = ({ editingRoom, setEditingRoom }) => {
     }
   }, [editingRoom]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
 
     // Ensure amenities is treated as a string before splitting
@@ -50,9 +61,7 @@ const RoomForm = ({ editingRoom, setEditingRoom }) => {
       ? formData.amenities.toString() // Ensure it's a string, even if empty
       : "";
 
-
     const imagesString = formData.image ? formData.image.toString() : "";
-    
 
     const roomData = {
       ...formData,
@@ -60,23 +69,23 @@ const RoomForm = ({ editingRoom, setEditingRoom }) => {
       capacity: Number(formData.capacity),
       pricePerSlot: Number(formData.pricePerSlot),
       image: imagesString.split(",").map((image) => image.trim()),
-      amenities: amenitiesString.split(",").map((amenity) => amenity.trim()), // Split amenities into an array
-      isDeleted: false, // Default to false for new rooms
+      amenities: amenitiesString.split(",").map((amenity) => amenity.trim()),
+      isDeleted: false, 
     };
 
-    console.log("Submitting Room Data:", roomData); // Log the exact room data being sent
+    console.log("Submitting Room Data:", roomData); 
 
     try {
       if (editingRoom) {
-        console.log("Editing Room:", editingRoom); // Log to check editingRoom
-        console.log("Editing Room ID:", editingRoom._id); // Log to check the ID
+        console.log("Editing Room:", editingRoom); 
+        console.log("Editing Room ID:", editingRoom._id);
 
         if (!editingRoom._id) {
           throw new Error("Room ID is missing for update");
         }
 
         await updateRoom({ id: editingRoom._id, ...roomData }).unwrap();
-        setEditingRoom(null); // Reset form
+        setEditingRoom(null); 
       } else {
         await createRoom(roomData).unwrap();
       }

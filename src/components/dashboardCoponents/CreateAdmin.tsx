@@ -1,4 +1,5 @@
-import { useState } from "react";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import {useState } from "react";
 import { useFetchUserByEmailQuery, usePromoteUserToAdminMutation } from "../../redux/api/baseApi";
 import { toast } from "react-toastify";
 
@@ -13,7 +14,7 @@ const CreateAdmin = () => {
     skip: !email, // Don't fetch until email is provided
   });
 
-  const handleFetchUser = (e) => {
+  const handleFetchUser = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     if (email) {
       refetch(); // Fetch user when email is provided
@@ -26,6 +27,7 @@ const CreateAdmin = () => {
         await promoteToAdmin(user.data._id);
         toast.success("User promoted to Admin successfully!");
       }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       toast.error("Failed to promote user to Admin.");
     }

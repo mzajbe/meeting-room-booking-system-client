@@ -1,10 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from "react";  
-import { useDeleteRoomMutation, useFetchRoomsQuery, useUpdateRoomMutation } from "../../redux/api/baseApi";  
+import {useFetchRoomsQuery, useUpdateRoomMutation } from "../../redux/api/baseApi";  
 import RoomForm from "./RoomForm";  
+import { TRoom } from "../../types";
 
-const RoomList = () => {  
-  const { data, isLoading, refetch } = useFetchRoomsQuery({});  
-  const rooms = data?.data?.filter(room => !room.isDeleted) || [];  
+
+const RoomList: React.FC = () => {  
+  const { data, isLoading} = useFetchRoomsQuery({});  
+  const rooms = data?.data?.filter((room:TRoom) => !room.isDeleted) || [];  
   const [updateRoom] = useUpdateRoomMutation();  
   const [editingRoom, setEditingRoom] = useState(null);  
 
@@ -13,7 +16,7 @@ const RoomList = () => {
 
   if (isLoading) return <div className="text-center">Loading...</div>;  
 
-  const handleDelete = async (_id) => {  
+  const handleDelete = async (_id :string) => {  
     if (confirm('Are you sure you want to delete this room?')) {  
       try {  
         await updateRoom({ id: _id, isDeleted: true }).unwrap();  
@@ -21,7 +24,7 @@ const RoomList = () => {
 
 
          // Update local room list without refetching
-        setLocalRooms(localRooms.filter(room => room._id !== _id));
+        setLocalRooms(localRooms.filter((room:TRoom) => room._id !== _id));
 
 
 
@@ -32,14 +35,14 @@ const RoomList = () => {
     }  
   };  
 
-  const handleUpdate = async (roomData) => {  
-    const updatedRoom = { ...editingRoom, ...roomData }; // Merge existing room data with updated data  
-    const updatedRooms = rooms.map(room => room._id === updatedRoom._id ? updatedRoom : room); // Update local rooms state  
+  const handleUpdate = async (roomData : Partial<TRoom>) => {  
+    const updatedRoom = { ...editingRoom, ...roomData };  
+    const updatedRooms = rooms.map((room : TRoom) => room._id === updatedRoom._id ? updatedRoom : room); // Update local rooms state  
 
     try {  
       await updateRoom(roomData).unwrap();  
 
-      setLocalRooms(localRooms.map(room => room._id === updatedRoom._id ? updatedRoom : room));
+      setLocalRooms(localRooms.map((room:TRoom) => room._id === updatedRoom._id ? updatedRoom : room));
 
 
       setEditingRoom(null);  
@@ -54,7 +57,7 @@ const RoomList = () => {
       <RoomForm editingRoom={editingRoom} setEditingRoom={setEditingRoom} onUpdate={handleUpdate} />  
       <h1 className="text-xl font-bold mb-4">Room List</h1>  
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">  
-        {rooms.map((room) => (  
+        {rooms.map((room : TRoom) => (  
           <div key={room._id} className="bg-white border rounded shadow p-4 hover:shadow-lg transition duration-200">  
             <h2 className="text-lg font-semibold">{room.name}</h2>  
             <p><strong>Room No.:</strong> {room.roomNo}</p>  

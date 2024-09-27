@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useCreateSlotMutation, useFetchRoomsQuery } from "../../redux/api/baseApi";
+import { toast } from "react-toastify";
 
 const CreateSlot = () => {
     const { data: rooms, error, isLoading } = useFetchRoomsQuery({});
@@ -23,6 +24,7 @@ const CreateSlot = () => {
         try {
             const response = await createSlot(slotData).unwrap();  // Unwrap the response for better error handling
             console.log("Slot created successfully", response);
+            toast.success('Slot created successfully');
 
             // Optionally reset the form after submission
             setRoomName("");
