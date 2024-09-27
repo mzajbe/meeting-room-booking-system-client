@@ -9,6 +9,7 @@ export type TRoom = {
     pricePerSlot: string;
     description: string;
     image: string;
+    imageUrl:string;
     amenities: string;
     isDeleted:boolean;
   };

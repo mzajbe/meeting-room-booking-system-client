@@ -19,14 +19,14 @@ const RoomDetails = () => {
     return <p>Room not found.</p>;
   }
 
-  // Adjust slider settings based on the number of images
+ 
   const sliderSettings = {
-    dots: room.image && room.image.length > 1, // Show dots only if more than one image
-    infinite: room.image && room.image.length > 1, // Enable infinite scrolling only if more than one image
+    dots: room.image && room.image.length > 1,
+    infinite: room.image && room.image.length > 1,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    arrows: room.image && room.image.length > 1, // Show arrows only if more than one image
+    arrows: room.image && room.image.length > 1, 
   };
 
   return (

@@ -1,8 +1,17 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Link } from "react-router-dom";
 import { House , Calendar, Clipboard,UserPlus  } from "lucide-react";
 
-const DashboardCard = ({ to, icon: Icon, title, description, color }) => (
+type TDashboard = {
+title:string;
+description: string;
+color:string;
+to:string;
+icon:any;
+}
+
+const DashboardCard : React.FC<TDashboard> = ({ to, icon: Icon, title, description, color }) => (
   <Link 
     to={to} 
     className={`bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border-l-4 ${color}`}
