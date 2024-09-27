@@ -99,8 +99,8 @@ const CreateSlot = () => {
             {/* Submit Button */}
             <button
                 type="submit"
-                className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${isSubmitting && 'opacity-50 cursor-not-allowed'}`}
-                disabled={isSubmitting}  // Disable button while submitting
+                className={`bg-customAccent1 hover:bg-customAccent2 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${isSubmitting && 'opacity-50 cursor-not-allowed'}`}
+                disabled={isSubmitting}
             >
                 {isSubmitting ? "Creating..." : "Create Slot"}
             </button>

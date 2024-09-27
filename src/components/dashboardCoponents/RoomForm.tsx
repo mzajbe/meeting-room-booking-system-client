@@ -190,7 +190,7 @@ const RoomForm = ({ editingRoom, setEditingRoom }) => {
       </div>
       <button
         type="submit"
-        className="bg-blue-500 text-white py-2 px-4 rounded-md"
+        className="bg-customAccent1 text-white py-2 px-4 rounded-md"
       >
         {editingRoom ? "Update Room" : "Create Room"}
       </button>

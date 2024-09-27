@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-import { Camera, Calendar, Clipboard } from "lucide-react";
+import { House , Calendar, Clipboard,UserPlus  } from "lucide-react";
 
 const DashboardCard = ({ to, icon: Icon, title, description, color }) => (
   <Link 
@@ -29,7 +29,7 @@ const Dashboard = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <DashboardCard
             to="/create-rooms"
-            icon={Camera}
+            icon={House }
             title="Room Management"
             description="View and manage all rooms"
             color="border-l-blue-500"
@@ -47,6 +47,13 @@ const Dashboard = () => {
             title="Booking Management"
             description="View and manage all bookings"
             color="border-l-purple-500"
+          />
+          <DashboardCard
+            to="/create-admin"
+            icon={UserPlus}
+            title="Create Admin"
+            description="Promote a user to Admin"
+            color="border-l-red-500"
           />
         </div>
       </div>

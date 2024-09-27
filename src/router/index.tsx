@@ -16,6 +16,9 @@ import CreateSlot from "../pages/slotManagement/CreateSlot";
 import BookingsAction from "../pages/bookingManagement/BookingsAction";
 import SlotManagement from "../pages/slotManagement/SlotManagement";
 import MyBookingsPage from "../pages/myBookings/MyBookingsPage";
+import Page404 from "../pages/errorPage/page404";
+import CreateAdmin from "../components/dashboardCoponents/CreateAdmin";
+import CheckoutPage from "../pages/checkout/CheckoutPage";
 
 const router = createBrowserRouter([
   {
@@ -77,6 +80,18 @@ const router = createBrowserRouter([
       {
         path:"/my-bookings",
         element:<MyBookingsPage></MyBookingsPage>
+      },
+      {
+        path:"/create-admin",
+        element:<CreateAdmin></CreateAdmin>
+      },
+      {
+        path:"/checkout",
+        element:<CheckoutPage></CheckoutPage>
+      },
+      {
+        path:"*",
+        element:<Page404></Page404>
       }
     ],
   },

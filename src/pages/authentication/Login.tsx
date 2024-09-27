@@ -16,6 +16,10 @@ const Login: React.FC = () => {
 
   console.log("data =>" , data);
   console.log("error =>" , error);
+
+  toast.error(error?.data?.message,{
+    toastId:"error1",
+  })
   
 
   const location = useLocation();

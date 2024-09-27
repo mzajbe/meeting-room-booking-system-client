@@ -63,7 +63,7 @@ const RoomList = () => {
             <p><strong>Price Per Slot:</strong> ${room.pricePerSlot}</p>  
             <div className="mt-2">  
               <button  
-                className="mr-2 bg-blue-500 text-white py-1 px-2 rounded hover:bg-blue-600 transition duration-200"  
+                className="mr-2 bg-customAccent1 text-white py-1 px-2 rounded hover:bg-customAccent2 transition duration-200"  
                 onClick={() => setEditingRoom(room)}  
               >  
                 Edit  

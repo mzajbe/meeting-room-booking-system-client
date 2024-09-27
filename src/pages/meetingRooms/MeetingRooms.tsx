@@ -3,14 +3,13 @@ import { useFetchRoomsQuery } from "../../redux/api/baseApi";
 import MeetingRoomsCard from "./MeetingRoomsCard";
 
 type TRoom = {
-    _id:string;
-    name:string;
-    description:string;
-    capacity:number;
-    price:number;
-    isDeleted: boolean;
-}
-
+  _id: string;
+  name: string;
+  description: string;
+  capacity: number;
+  pricePerSlot: number;
+  isDeleted: boolean;
+};
 
 const MeetingRooms = () => {
   const { data: rooms, error, isLoading } = useFetchRoomsQuery({});
@@ -31,17 +30,34 @@ const MeetingRooms = () => {
     setSortOrder(e.target.value);
   };
 
+  
+  const clearFilters = () => {
+    setSearchTerm("");
+    setFilterCapacity(null);
+    setFilterPrice(null);
+    setSortOrder("ascending");
+  };
+  
+
   const filteredRooms = rooms?.data
-    ?.filter((room: TRoom) => !room.isDeleted) // Filter out rooms that are soft deleted
-    ?.filter((room: TRoom) =>
+  ?.filter((room: TRoom) => !room.isDeleted) // soft deleted room
+  ?.filter(
+    (room: TRoom) =>
       room.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       room.description.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    ?.filter((room: TRoom) => (filterCapacity ? room.capacity >= filterCapacity : true))
-    ?.filter((room: TRoom) => (filterPrice ? room.price <= filterPrice : true))
-    ?.sort((a: TRoom, b: TRoom) =>
-      sortOrder === "ascending" ? a.price - b.price : b.price - a.price
-    );
+  )
+  ?.filter((room: TRoom) =>
+    filterCapacity ? room.capacity >= filterCapacity : true
+  )
+  ?.filter((room: TRoom) =>
+    filterPrice !== null && filterPrice !== undefined
+      ? room.pricePerSlot <= filterPrice
+      : true
+  )
+  ?.sort((a: TRoom, b: TRoom) =>
+    sortOrder === "ascending" ? a.pricePerSlot - b.pricePerSlot : b.pricePerSlot - a.pricePerSlot
+  );
+
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading rooms</div>;
@@ -61,6 +77,7 @@ const MeetingRooms = () => {
           <select
             onChange={handleSort}
             className="px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-customAccent3"
+            value={sortOrder}
           >
             <option value="ascending">Price: Low to High</option>
             <option value="descending">Price: High to Low</option>
@@ -83,6 +100,13 @@ const MeetingRooms = () => {
             onChange={(e) => setFilterPrice(Number(e.target.value))}
             className="px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-customAccent3"
           />
+          {/* Clear Filters Button */}
+          <button
+            onClick={clearFilters}
+            className="px-4 py-2 bg-orange-400 text-white rounded-lg shadow-sm hover:bg-red-600 transition duration-200"
+          >
+            Clear Filters
+          </button>
         </div>
       </div>
 

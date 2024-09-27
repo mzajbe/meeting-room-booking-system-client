@@ -13,6 +13,16 @@ export const baseApi = createApi({
     fetchBookingsByUser: builder.query({
       query: (userId) => `/bookings/user/${userId}`,
     }),
+    fetchUserByEmail: builder.query({
+      query: (email) => `/auth/getUserByEmail/${email}`,
+    }),
+    // Promote user to admin
+    promoteUserToAdmin: builder.mutation({
+      query: (id) => ({
+        url: `/auth/promoteToAdmin/${id}`,
+        method: "PUT",
+      }),
+    }),
     fetchRooms: builder.query({
       query: () => "/rooms",
     }),
@@ -109,7 +119,7 @@ export const baseApi = createApi({
     }),
     deleteBooking: builder.mutation({
       query: (bookingId) => ({
-        url: `/bookings/${bookingId}`,
+        url: `/bookings/bookings/${bookingId}`,
         method: "DELETE",
       }),
       invalidatesTags: ["Bookings"],
@@ -120,6 +130,11 @@ export const baseApi = createApi({
 export const {
   useFetchUserByIdQuery,
   useFetchBookingsByUserQuery,
+  useFetchUserByEmailQuery,
+
+
+  usePromoteUserToAdminMutation,
+
   useFetchRoomsQuery,
   useFetchRoomQuery,
   useSignUpMutation,

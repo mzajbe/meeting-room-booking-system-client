@@ -7,6 +7,7 @@ import {
   useFetchUserByIdQuery, // Import the new hook
 } from "../../redux/api/baseApi";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const BookingForm = ({ roomId }) => {
   const authUser = useSelector((state) => state.auth.user); // Get the user from auth (with userId)
@@ -122,15 +123,44 @@ const BookingForm = ({ roomId }) => {
             disabled
             className="w-full p-3 border border-gray-300 rounded bg-gray-100"
           />
+        
         </div>
 
-        {/* Submit Button */}
+        <div className="mb-6">
+          <label className="block mb-2 text-sm font-medium text-gray-700">Phone</label>
+          <input
+            type="text"
+            value={user?.data.phone || ""}
+            disabled
+            className="w-full p-3 border border-gray-300 rounded bg-gray-100"
+          />
+        </div>
+
+        <div className="mb-6">
+          <label className="block mb-2 text-sm font-medium text-gray-700">Your Address</label>
+          <input
+            type="text"
+            value={user?.data.address || ""}
+            disabled
+            className="w-full p-3 border border-gray-300 rounded bg-gray-100"
+          />
+        </div>
+
+        
+
+        <Link to="/checkout">
+        
         <button
           type="submit"
           className="w-full bg-customAccent2 text-white font-semibold px-4 py-3 rounded hover:bg-customAccent1 transition duration-200"
         >
-          Submit Booking
+          Proceed to Checkout
         </button>
+        </Link>
+
+
+
+        
       </form>
     </div>
   );

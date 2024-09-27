@@ -1,15 +1,13 @@
-// import axios from "axios";
 import { useState } from "react";
 import { useSignUpMutation } from "../../redux/api/baseApi";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-
-
 const Register = () => {
-
-  const [signUp, { isLoading, isError, error }] = useSignUpMutation();
+  const [signUp, { isLoading }] = useSignUpMutation();
   const navigate = useNavigate();
+
+  const [errors, setErrors] = useState({ email: "" });
 
   // State for form data
   const [formData, setFormData] = useState({
@@ -20,28 +18,34 @@ const Register = () => {
     address: "",
   });
 
-   // Handle form input change
+  // Handle form input change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
+
+    // Simple email validation
+    if (name === "email") {
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(value)) {
+        setErrors({ ...errors, email: "Please enter a valid email address" });
+      } else {
+        setErrors({ ...errors, email: "" });
+      }
+    }
   };
 
   // Handle form submit
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   try {
-  //     // Trigger sign-up mutation
-  //     const result = await signUp(formData).unwrap();
-  //     console.log("User signed up successfully:", result);
-  //   } catch (error) {
-  //     console.error("Failed to sign up:", error);
-  //   }
-  // };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (errors.email) {
+      toast.error("Please correct the errors before submitting.");
+      return;
+    }
+
     try {
       // Ensure role is sent with default 'user' value
       const result = await signUp({
@@ -50,24 +54,27 @@ const Register = () => {
         password: formData.password,
         phone: formData.phone,
         address: formData.address,
-        role: 'user', // Ensure this is sent
+        role: "user", // Ensure this is sent
       }).unwrap();
+
       console.log("User signed up successfully:", result);
-      
 
-      navigate("/login",{state:{fromRegister: true}});
+      // // Show success toast
+      // toast.success("Registration successful!", {
+      //   toastId: "success",
+      // });
 
+      navigate("/login", { state: { fromRegister: true } });
     } catch (error) {
       console.error("Failed to sign up:", error);
-      toast.success("Registration failed!", {
+
+      // Show error toast
+      toast.error("Registration failed! Please try again.", {
         toastId: "failed",
       });
     }
   };
 
-  
-
-  
   return (
     <div className="bg-login-bg bg-cover text-white flex min-h-screen flex-col items-center pt-16 sm:justify-center sm:pt-0">
       <div className="relative border border-white mt-12 w-full max-w-lg sm:mt-10 backdrop-blur-lg">
@@ -82,14 +89,10 @@ const Register = () => {
             </p>
           </div>
           <div className="p-6 pt-0">
-            {/* {error && <p className="text-red-500">{error}</p>}
-            {success && <p className="text-green-500">{success}</p>} */}
             <form onSubmit={handleSubmit}>
               <div className="mb-2">
                 <div className="group relative rounded-lg border focus-within:border-green-200 px-3 pb-1.5 pt-2.5 duration-200 focus-within:ring focus-within:ring-sky-300/30">
-                  <label className="text-xs font-medium text-gray-100">
-                    Name
-                  </label>
+                  <label className="text-xs font-medium text-gray-100">Name</label>
                   <input
                     type="text"
                     name="name"
@@ -102,9 +105,7 @@ const Register = () => {
               </div>
               <div className="mb-2">
                 <div className="group relative rounded-lg border focus-within:border-green-200 px-3 pb-1.5 pt-2.5 duration-200 focus-within:ring focus-within:ring-sky-300/30">
-                  <label className="text-xs font-medium text-gray-100">
-                    Email
-                  </label>
+                  <label className="text-xs font-medium text-gray-100">Email</label>
                   <input
                     type="email"
                     name="email"
@@ -114,12 +115,14 @@ const Register = () => {
                     className="block w-full border-0 bg-transparent p-0 text-sm placeholder:text-gray-400 focus:outline-none"
                   />
                 </div>
+                {/* Email Error Display */}
+                {errors.email && (
+                  <p className="text-red-500 text-xs mt-1">{errors.email}</p>
+                )}
               </div>
               <div className="mb-2">
                 <div className="group relative rounded-lg border focus-within:border-green-200 px-3 pb-1.5 pt-2.5 duration-200 focus-within:ring focus-within:ring-sky-300/30">
-                  <label className="text-xs font-medium text-gray-100">
-                    Password
-                  </label>
+                  <label className="text-xs font-medium text-gray-100">Password</label>
                   <input
                     type="password"
                     name="password"
@@ -132,9 +135,7 @@ const Register = () => {
               </div>
               <div className="mb-2">
                 <div className="group relative rounded-lg border focus-within:border-green-200 px-3 pb-1.5 pt-2.5 duration-200 focus-within:ring focus-within:ring-sky-300/30">
-                  <label className="text-xs font-medium text-gray-100">
-                    Phone Number
-                  </label>
+                  <label className="text-xs font-medium text-gray-100">Phone Number</label>
                   <input
                     type="text"
                     name="phone"
@@ -147,9 +148,7 @@ const Register = () => {
               </div>
               <div className="mb-2">
                 <div className="group relative rounded-lg border focus-within:border-green-200 px-3 pb-1.5 pt-2.5 duration-200 focus-within:ring focus-within:ring-sky-300/30">
-                  <label className="text-xs font-medium text-gray-100">
-                    Address
-                  </label>
+                  <label className="text-xs font-medium text-gray-100">Address</label>
                   <input
                     type="text"
                     name="address"
@@ -168,7 +167,6 @@ const Register = () => {
                   {isLoading ? "Signing Up..." : "Register"}
                 </button>
               </div>
-              
             </form>
           </div>
         </div>

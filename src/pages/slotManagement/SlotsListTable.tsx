@@ -85,13 +85,13 @@ const SlotsListTable = () => {
             <td className="py-2 px-4">{slot.endTime}</td>
             <td className="py-2 px-4">
               <button
-                className="mr-2 text-blue-500 hover:underline"
+                className="mr-2 bg-customAccent1 text-white py-1 px-2 rounded hover:bg-customAccent2 transition duration-200"
                 onClick={() => handleUpdateClick(slot)}
               >
                 Update
               </button>
               <button
-                className="text-red-500 hover:underline"
+                className="mr-2 bg-red-500 text-white py-1 px-2 rounded hover:bg-red-00 transition duration-200"
                 onClick={() => handleDelete(slot._id)}
               >
                 Delete
@@ -140,7 +140,7 @@ const SlotsListTable = () => {
             </div>
             <button
               type="submit"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="bg-customAccent1 hover:bg-customAccent2 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             >
               Save Changes
             </button>
