@@ -64,15 +64,27 @@ const router = createBrowserRouter([
       },
       {
         path:"/dashboard",
-        element: <Dashboard></Dashboard>,
+        element: (
+          <ProtectedRoute adminOnly={true}>
+            <Dashboard></Dashboard>
+          </ProtectedRoute>
+        ),
       },
       {
         path:"/create-rooms",
-        element:<RoomList></RoomList>,
+        element:(
+          <ProtectedRoute adminOnly={true}>
+            <RoomList></RoomList>
+          </ProtectedRoute>
+        ),
       },
       {
         path:"/create-slots",
-        element:<SlotManagement></SlotManagement>
+        element:(
+          <ProtectedRoute adminOnly={true}>
+            <SlotManagement></SlotManagement>
+          </ProtectedRoute>
+        ),
       },
       {
         path:"/booking-action",
@@ -84,7 +96,11 @@ const router = createBrowserRouter([
       },
       {
         path:"/create-admin",
-        element:<CreateAdmin></CreateAdmin>
+        element:(
+          <ProtectedRoute adminOnly={true}>
+            <CreateAdmin></CreateAdmin>
+          </ProtectedRoute>
+        ),
       },
       {
         path:"/checkout",
