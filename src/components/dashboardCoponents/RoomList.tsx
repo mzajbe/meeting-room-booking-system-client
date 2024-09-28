@@ -5,11 +5,18 @@ import RoomForm from "./RoomForm";
 import { TRoom } from "../../types";
 
 
+// Define the props interface for the RoomForm component
+// type TRoomFormProps = {
+//   editingRoom: TRoom | null;
+//   setEditingRoom: React.Dispatch<React.SetStateAction<TRoom | null>>;
+//   onUpdate: (roomData: Partial<TRoom>) => Promise<void>;
+// };
+
 const RoomList: React.FC = () => {  
   const { data, isLoading} = useFetchRoomsQuery({});  
   const rooms = data?.data?.filter((room:TRoom) => !room.isDeleted) || [];  
-  const [updateRoom] = useUpdateRoomMutation();  
-  const [editingRoom, setEditingRoom] = useState(null);  
+  const [updateRoom] = useUpdateRoomMutation(); 
+  const [editingRoom, setEditingRoom] = useState<TRoom | null>(null); 
 
   const [localRooms, setLocalRooms] = useState(rooms); 
 
@@ -34,27 +41,23 @@ const RoomList: React.FC = () => {
       }  
     }  
   };  
+  // const handleUpdate = async (roomData: Partial<TRoom>) => {  
+  //   if (!editingRoom) return;
 
-  const handleUpdate = async (roomData : Partial<TRoom>) => {  
-    const updatedRoom = { ...editingRoom, ...roomData };  
-    const updatedRooms = rooms.map((room : TRoom) => room._id === updatedRoom._id ? updatedRoom : room); // Update local rooms state  
+  //   const updatedRoom = { ...editingRoom, ...roomData };  
+  //   try {  
+  //     await updateRoom(updatedRoom).unwrap();  
 
-    try {  
-      await updateRoom(roomData).unwrap();  
-
-      setLocalRooms(localRooms.map((room:TRoom) => room._id === updatedRoom._id ? updatedRoom : room));
-
-
-      setEditingRoom(null);  
-      // refetch(); // Optionally call refetch to ensure data is synced with the server  
-    } catch (error) {  
-      console.error('Failed to update room:', error);  
-    }  
-  };  
+  //     setLocalRooms(localRooms.map((room: TRoom) => room._id === updatedRoom._id ? updatedRoom : room));
+  //     setEditingRoom(null);  
+  //   } catch (error) {  
+  //     console.error('Failed to update room:', error);  
+  //   }  
+  // };
 
   return (  
     <div className="container mx-auto p-4">  
-      <RoomForm editingRoom={editingRoom} setEditingRoom={setEditingRoom} onUpdate={handleUpdate} />  
+      <RoomForm editingRoom={editingRoom} setEditingRoom={setEditingRoom}  />  
       <h1 className="text-xl font-bold mb-4">Room List</h1>  
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">  
         {rooms.map((room : TRoom) => (  

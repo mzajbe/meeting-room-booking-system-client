@@ -1,6 +1,26 @@
 import { Link } from "react-router-dom";
 
-const MeetingRoomsCard = ({ room }) => {
+
+type TRoom = {
+  _id: string;
+  name: string;
+  description: string;
+  capacity: number;
+  pricePerSlot: number;
+  isDeleted: boolean;
+  roomNo: string;  // Changed to string
+  floorNo: string; // Assuming floorNo should also be a string
+  image: string;
+  imageUrl: string;
+  amenities: string[];
+};
+
+type TMeetingRoomCardProps = {
+  room:TRoom;
+
+}
+
+const MeetingRoomsCard: React.FC<TMeetingRoomCardProps>  = ({ room }) => {
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
       <img

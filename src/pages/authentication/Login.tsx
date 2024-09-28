@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -7,23 +8,52 @@ import { useLoginMutation } from "../../redux/features/auth/authApi";
 import { useAppDispatch } from "../../redux/hooks";
 import { setUser } from "../../redux/features/authSlice";
 import { verifyToken } from "../../utils/verifyToken";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 const Login: React.FC = () => {
   const dispatch = useAppDispatch();
   const { register, handleSubmit } = useForm();
 
   const [login,{data,error}] = useLoginMutation();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   console.log("data =>" , data);
   console.log("error =>" , error);
 
-  toast.error(error?.data?.message,{
-    toastId:"error1",
-  })
+  // toast.error(error?.data?.message,{
+  //   toastId:"error1",
+  // })
+
+  useEffect(() => {
+    // Handle error display using toast
+    if (error) {
+      if ("data" in error) {
+        const apiError = error as FetchBaseQueryError;
+        // Check if apiError.data is an object and has a message property
+        const errorMessage = (apiError?.data as { message?: string })?.message;
+
+        if (errorMessage) {
+          toast.error(errorMessage, {
+            toastId: "error1",
+          });
+        } else {
+          toast.error("An error occurred during login.", {
+            toastId: "error1",
+          });
+        }
+      } else {
+        toast.error("An unexpected error occurred.", {
+          toastId: "error1",
+        });
+      }
+    }
+  }, [error]);
+
+  
   
 
-  const location = useLocation();
-  const navigate = useNavigate();
+  
 
   useEffect(() => {
     // Show the toast notification if redirected from Register
@@ -37,13 +67,13 @@ const Login: React.FC = () => {
     }
   }, [location, navigate]);
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data:any) => {
     const userInfo = {
       email: data.email,
       password:data.password,
     }
     const res = await login(userInfo).unwrap();
-    // console.log(res);
+    
 
 
     const user = verifyToken(res.token);

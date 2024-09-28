@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
@@ -9,15 +10,36 @@ import {
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-const BookingForm = ({ roomId }) => {
-  const authUser = useSelector((state) => state.auth.user); // Get the user from auth (with userId)
+
+type TBookingFormProps = {
+  roomId: string;
+}
+
+
+type TSlot ={
+  _id: string;
+  startTime: string;
+  endTime: string;
+}
+
+// Define a type for the state being passed to the checkout page
+// type TBookingDetails = {
+//   roomName: string;
+//   date: string;
+//   time: string;
+//   cost: string;
+// }
+
+
+const BookingForm = ({ roomId  }:TBookingFormProps) => {
+  const authUser = useSelector((state:any) => state.auth.user); // Get the user from auth (with userId)
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedSlot, setSelectedSlot] = useState("");
-  const [proceedToCheckout, setProceedToCheckout] = useState(false); // State to manage checkout button
+  const [proceedToCheckout, setProceedToCheckout] = useState(false);
 
-  const navigate = useNavigate(); // Use navigate hook for redirect
+  const navigate = useNavigate(); 
 
-  // Fetch full user details from backend using userId from auth
+ 
   const { data: user, isLoading: userLoading } = useFetchUserByIdQuery(
     authUser.userId
   );
@@ -30,7 +52,7 @@ const BookingForm = ({ roomId }) => {
     refetch,
     isFetching,
   } = useFetchAvailableSlotsQuery(selectedDate, {
-    skip: !selectedDate, // Skip query if date isn't selected
+    skip: !selectedDate, 
   });
 
   const [submitBooking] = useSubmitBookingMutation();
@@ -38,29 +60,29 @@ const BookingForm = ({ roomId }) => {
   console.log(availableSlots);
   
 
-  // Fetch available slots when a new date is selected
+  
   useEffect(() => {
     if (selectedDate) {
       refetch();
     }
   }, [selectedDate, refetch]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
 
     const bookingData = {
       date: selectedDate,
-      slots: [selectedSlot], // Pass selected slot ID
-      room: roomId, // Room ID passed as a prop
-      user: authUser.userId, // Pass the logged-in user's ID from auth
+      slots: [selectedSlot], 
+      room: roomId, 
+      user: authUser.userId,
     };
 
     try {
       await submitBooking(bookingData).unwrap();
       toast.success("Your room booked! For confirm booking please Payment.");
-      setProceedToCheckout(true); // Enable the "Go for Payment" button
+      setProceedToCheckout(true);
     } catch (error) {
-      console.error("Booking error:", error); // Log the error for debugging
+      console.error("Booking error:", error); 
       toast.error("Error creating booking");
     }
   };
@@ -70,21 +92,19 @@ const BookingForm = ({ roomId }) => {
   
 
   const handleGoForPayment = () => {
-    // Construct bookingDetails from the form data
     const bookingDetails = {
-      roomName: "Your", // You can get the room name dynamically if available
+      roomName: "Your", 
       date: selectedDate,
-      time: availableSlots?.data.find((slot) => slot._id === selectedSlot)?.startTime + 
+      time: availableSlots?.data.find((slot:TSlot) => slot._id === selectedSlot)?.startTime + 
             " - " + 
-            availableSlots?.data.find((slot) => slot._id === selectedSlot)?.endTime,
-      cost: "100", // Replace this with the actual cost if you have it
+            availableSlots?.data.find((slot:TSlot) => slot._id === selectedSlot)?.endTime,
+      cost: "100", 
     };
 
     // Redirect to checkout page and pass booking details
     navigate("/checkout", { state: { bookingDetails } });
   };
 
-  // Handle loading state for user details
   if (userLoading) {
     return <p>Loading user details...</p>;
   }
@@ -126,7 +146,7 @@ const BookingForm = ({ roomId }) => {
                 className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">Select Time Slot</option>
-                {availableSlots?.data.map((slot) => (
+                {availableSlots?.data.map((slot:TSlot) => (
                   <option key={slot._id} value={slot._id}>
                     {`${slot.startTime} - ${slot.endTime}`}
                   </option>

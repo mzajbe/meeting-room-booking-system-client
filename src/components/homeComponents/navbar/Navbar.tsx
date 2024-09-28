@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { logout, useCurrentUser } from "../../../redux/features/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useFetchUserByIdQuery } from "../../../redux/api/baseApi";
+import { RootState } from "../../../redux/store";
+
 
 
 
@@ -12,7 +15,7 @@ const Navbar = () => {
   const navbarRef = useRef(null);
   const currentUser = useSelector(useCurrentUser); // Assuming this returns the logged-in user info
 
-  const authUser = useSelector((state) => state.auth.user);
+  const authUser = useSelector((state:RootState) => state.auth.user);
   const { data:user} = useFetchUserByIdQuery(authUser?.userId);
 
   // console.log(authUser?.userId);
@@ -34,9 +37,9 @@ const Navbar = () => {
     setIsDropdownOpen((prev) => !prev);
   };
 
-  const handleCloseDropdown = () => {
-    setIsDropdownOpen(false);
-  };
+  // const handleCloseDropdown = () => {
+  //   setIsDropdownOpen(false);
+  // };
 
   const handleLogout = () => {
     dispatch(logout());

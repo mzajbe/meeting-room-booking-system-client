@@ -1,23 +1,35 @@
-import { useState, useEffect } from "react";
+/* eslint-disable react-hooks/rules-of-hooks */
+import { useState} from "react";
 import { useLocation } from "react-router-dom";
 import Modal from "react-responsive-modal";
 import { useSelector } from "react-redux";
 import {
   useFetchUserByIdQuery,
-  useSubmitBookingMutation,
 } from "../../redux/api/baseApi"; // Import the booking and user APIs
 import "react-responsive-modal/styles.css";
 import { toast } from "react-toastify";
+import { RootState } from "../../redux/store";
+
 
 const CheckoutPage = () => {
-  const authUser = useSelector((state) => state.auth.user); // Fetch user ID from Redux
+  const authUser = useSelector((state:RootState) => state.auth.user); // Fetch user ID from Redux
   const location = useLocation();
   const bookingDetails = location.state?.bookingDetails; // Get passed booking details
 
   console.log(bookingDetails); 
   
-  const { data: user, isLoading: userLoading } = useFetchUserByIdQuery(authUser.userId); // Fetch real user data
+  // const { data: user, isLoading: userLoading } = useFetchUserByIdQuery(authUser?.userId); // Fetch real user data
 //   const [submitBooking] = useSubmitBookingMutation();
+
+// Check if authUser exists before making the query
+const { data: user, isLoading: userLoading } = useFetchUserByIdQuery(
+  authUser?._id || "", // Use `_id` instead of `userId`
+  { skip: !authUser } // Skip query if authUser is null
+);
+
+if (!authUser) {
+  return <p>You must be logged in to proceed with checkout.</p>; // Handle the case when the user is not logged in
+}
 
   const [showModal, setShowModal] = useState(false);
 

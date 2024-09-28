@@ -3,6 +3,7 @@ import { useFetchRoomsQuery } from "../../redux/api/baseApi";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import { TRoom } from "../../types";
 
 const RoomDetails = () => {
   const { id } = useParams<{ id: string }>();
@@ -13,7 +14,7 @@ const RoomDetails = () => {
   }
 
   const rooms = data?.data;
-  const room = rooms.find((room) => room._id === id);
+  const room = rooms.find((room:TRoom) => room._id === id);
 
   if (!room) {
     return <p>Room not found.</p>;

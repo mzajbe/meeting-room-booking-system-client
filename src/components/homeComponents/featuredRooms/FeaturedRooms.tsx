@@ -3,12 +3,17 @@ import FeaturedRoomsCard from "./FeaturedRoomsCard";
 
 
 type TRoom = {
-  _id:string;
-  name:string;
-  description:string;
-  capacity:number;
-  price:number;
-  isDeleted:boolean;
+  _id: string;
+  name: string;
+  description: string;
+  capacity: number;
+  pricePerSlot: number;
+  isDeleted: boolean;
+  roomNo: string;  // Changed to string
+  floorNo: string; // Assuming floorNo should also be a string
+  image: string;
+  imageUrl: string;
+  amenities: string[];
 }
 
 const FeaturedRooms = () => {

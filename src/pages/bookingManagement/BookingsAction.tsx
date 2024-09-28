@@ -2,6 +2,22 @@
 import { toast } from "react-toastify";
 import { useApproveBookingMutation, useDeleteBookingMutation, useFetchBookingsQuery, useRejectBookingMutation } from "../../redux/api/baseApi";
 
+type TBooking = {
+  _id: string;
+  room: {
+    name: string;
+  };
+  user: {
+    name: string;
+  };
+  slots: {
+    date: string;
+    startTime: string;
+    endTime: string;
+  }[];
+  isDeleted: boolean;
+  isConfirmed: boolean;
+}
 
 const BookingsAction = () => {
 
@@ -42,9 +58,9 @@ const BookingsAction = () => {
 
   if (isLoading) return <p>Loading...</p>;
 
- 
+
   // Filter bookings where isDeleted is false
-  const filteredBookings = bookings?.data.filter((booking) => !booking.isDeleted);
+  const filteredBookings = bookings?.data.filter((booking : TBooking) => !booking.isDeleted);
   
 
     return (
@@ -62,7 +78,7 @@ const BookingsAction = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredBookings.map((booking) => (
+          {filteredBookings.map((booking : TBooking) => (
             <tr key={booking._id} className="border-t">
               <td className="px-4 py-2">{booking.room.name}</td>
               <td className="px-4 py-2">{booking.user.name}</td>

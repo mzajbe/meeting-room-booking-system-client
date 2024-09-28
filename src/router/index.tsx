@@ -10,15 +10,16 @@ import Register from "../pages/authentication/Register";
 import BookingsPage from "../pages/bookings/BookingsPage";
 import ProtectedRoute from "../components/Layouts/ProtectedRoute";
 import Dashboard from "../pages/dashboard/Dashboard";
-import DashboardTest from "../pages/dashboard/DashboardTest";
+
 import RoomList from "../components/dashboardCoponents/RoomList";
-import CreateSlot from "../pages/slotManagement/CreateSlot";
+
 import BookingsAction from "../pages/bookingManagement/BookingsAction";
 import SlotManagement from "../pages/slotManagement/SlotManagement";
 import MyBookingsPage from "../pages/myBookings/MyBookingsPage";
-import Page404 from "../pages/errorPage/page404";
+
 import CreateAdmin from "../components/dashboardCoponents/CreateAdmin";
 import CheckoutPage from "../pages/checkout/CheckoutPage";
+import Page404 from "../pages/errorPage/Page404";
 
 const router = createBrowserRouter([
   {

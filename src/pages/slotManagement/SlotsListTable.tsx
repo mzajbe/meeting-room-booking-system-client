@@ -6,20 +6,33 @@ import {
 } from "../../redux/api/baseApi";
 import { toast } from "react-toastify";
 
+type TSlot = {
+  _id: string;
+  room: {
+    name: string;
+    roomNo: string;
+  };
+  date: string;
+  startTime: string;
+  endTime: string;
+}
+
+
+
 const SlotsListTable = () => {
   const { data: slots, isLoading, error } = useFetchSlotsQuery({});
   const [deleteSlot] = useDeleteSlotMutation();
   const [updateSlot] = useUpdateSlotMutation();
 
 
-  const [editingSlot, setEditingSlot] = useState(null); // Track the slot being edited
+  const [editingSlot, setEditingSlot] = useState<TSlot | null>(null); // Track the slot being edited
   const [updatedDate, setUpdatedDate] = useState("");
   const [updatedStartTime, setUpdatedStartTime] = useState("");
   const [updatedEndTime, setUpdatedEndTime] = useState("");
 
   
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id:string) => {
     try {
       await deleteSlot(id);
       toast.success('slot deleted successfully');
@@ -37,26 +50,30 @@ const SlotsListTable = () => {
   //   }
   // };
 
-  const handleUpdateClick = (slot) => {
-    setEditingSlot(slot); // Set the slot being edited
+  const handleUpdateClick = (slot:TSlot) => {
+    setEditingSlot(slot); 
     setUpdatedDate(slot.date);
     setUpdatedStartTime(slot.startTime);
     setUpdatedEndTime(slot.endTime);
   };
 
-  const handleUpdateSubmit = async (e) => {
+  const handleUpdateSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      await updateSlot({
-        id: editingSlot._id,
-        date: updatedDate,
-        startTime: updatedStartTime,
-        endTime: updatedEndTime,
-      }).unwrap();
-      // Optionally refetch slots or show a success message
-      setEditingSlot(null); // Reset editing state
-    } catch (error) {
-      console.error("Error updating slot:", error);
+
+    if (editingSlot) { // Ensure editingSlot is not null
+      try {
+        await updateSlot({
+          id: editingSlot._id, // Safely access _id
+          date: updatedDate,
+          startTime: updatedStartTime,
+          endTime: updatedEndTime,
+        }).unwrap();
+        toast.success("Slot updated successfully");
+        setEditingSlot(null); // Reset editing state
+      } catch (error) {
+        console.error("Error updating slot:", error);
+        toast.error("Failed to update slot");
+      }
     }
   };
 
@@ -77,7 +94,7 @@ const SlotsListTable = () => {
         </tr>
       </thead>
       <tbody>
-        {slots?.data.map((slot) => (
+        {slots?.data.map((slot:TSlot) => (
           <tr key={slot._id} className="border-b hover:bg-gray-50">
             <td className="py-2 px-4">{slot.room.name}</td>
             <td className="py-2 px-4">{slot.room.roomNo}</td>

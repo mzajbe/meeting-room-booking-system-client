@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useCreateSlotMutation, useFetchRoomsQuery } from "../../redux/api/baseApi";
 import { toast } from "react-toastify";
+import { TRoom } from "../../types";
 
 const CreateSlot = () => {
     const { data: rooms, error, isLoading } = useFetchRoomsQuery({});
@@ -10,7 +11,7 @@ const CreateSlot = () => {
     const [endTime, setEndTime] = useState("");
     const [createSlot, { isLoading: isSubmitting }] = useCreateSlotMutation();  // Handle loading state
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
         
         // Slot data to be sent to the server
@@ -54,7 +55,7 @@ const CreateSlot = () => {
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 >
                     <option value="">Select a Room</option>
-                    {rooms?.data?.map((room) => (
+                    {rooms?.data?.map((room:TRoom) => (
                         <option key={room._id} value={room.name}>  {/* Now using room.name */}
                             {room.name}
                         </option>

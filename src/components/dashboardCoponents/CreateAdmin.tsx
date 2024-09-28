@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 const CreateAdmin = () => {
 
     const [email, setEmail] = useState("");
-  const [userId, setUserId] = useState(null);
+  // const [userId, setUserId] = useState(null);
 
   // Fetch user by email
   const { data: user, error, refetch } = useFetchUserByEmailQuery(email, {

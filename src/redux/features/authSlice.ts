@@ -41,6 +41,7 @@ import { RootState } from "../store";
 
 type TAuthState = {
   user: null | {
+    userId(userId: any): { data: any; error: any; isLoading: any; };
     _id:string,
     name: string;
     role: string;

@@ -2,6 +2,19 @@ import { useFetchBookingsByUserQuery } from "../../redux/api/baseApi";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store"; // Adjust the path based on your project structure
 
+type TBooking ={
+  _id: string;
+  room: {
+    name: string;
+  };
+  date: string;
+  slots: {
+    startTime: string;
+    endTime: string;
+  }[];
+  isConfirmed: string; // Assuming it can be "confirmed" or something else
+}
+
 const MyBookingsPage = () => {
   // Use useSelector to get the current user from auth state
   const currentUser = useSelector((state: RootState) => state.auth.user);
@@ -38,7 +51,7 @@ const MyBookingsPage = () => {
             </tr>
           </thead>
           <tbody className="text-gray-600 text-sm font-light">
-            {bookings?.data.map((booking) => (
+            {bookings?.data.map((booking :TBooking) => (
               <tr key={booking._id} className="border-b border-gray-200 hover:bg-gray-100">
                 <td className="py-3 px-6 text-left whitespace-nowrap">
                   <span className="font-medium">{booking.room.name}</span>

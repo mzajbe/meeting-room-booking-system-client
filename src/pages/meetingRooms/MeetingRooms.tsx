@@ -9,6 +9,11 @@ type TRoom = {
   capacity: number;
   pricePerSlot: number;
   isDeleted: boolean;
+  roomNo: string;  // Changed to string
+  floorNo: string; // Assuming floorNo should also be a string
+  image: string;
+  imageUrl: string;
+  amenities: string[];
 };
 
 const MeetingRooms = () => {
@@ -18,8 +23,8 @@ const MeetingRooms = () => {
 
   // Local states for search, filters, and sorting
   const [searchTerm, setSearchTerm] = useState("");
-  const [filterCapacity, setFilterCapacity] = useState(null);
-  const [filterPrice, setFilterPrice] = useState(null);
+  const [filterCapacity, setFilterCapacity] = useState<number | null>(null);
+  const [filterPrice, setFilterPrice] = useState<number | null>(null);
   const [sortOrder, setSortOrder] = useState("ascending");
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
