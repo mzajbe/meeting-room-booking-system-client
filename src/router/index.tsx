@@ -31,85 +31,73 @@ const router = createBrowserRouter([
         element: <Home></Home>,
       },
       {
-        path:"/rooms",
+        path: "/rooms",
         element: <MeetingRooms></MeetingRooms>,
       },
       {
         path: "/rooms/:id",
-        element:(
+        element: (
           <ProtectedRoute>
             <RoomDetails></RoomDetails>
           </ProtectedRoute>
         ),
       },
       {
-        path:"/about",
+        path: "/about",
         element: <AboutUs></AboutUs>,
       },
       {
-        path:"/contact-us",
+        path: "/contact-us",
         element: <ContactUs></ContactUs>,
       },
       {
-        path:"/login",
+        path: "/login",
         element: <Login></Login>,
       },
       {
-        path:"/register",
+        path: "/register",
         element: <Register></Register>,
       },
       {
-        path:"/booking/:roomId",
-        element: <BookingsPage></BookingsPage>,
-      },
-      {
-        path:"/dashboard",
+        path: "/booking/:roomId",
         element: (
-          <ProtectedRoute adminOnly={true}>
-            <Dashboard></Dashboard>
+          <ProtectedRoute>
+            <BookingsPage></BookingsPage>
           </ProtectedRoute>
         ),
       },
       {
-        path:"/create-rooms",
-        element:(
-          <ProtectedRoute adminOnly={true}>
-            <RoomList></RoomList>
-          </ProtectedRoute>
-        ),
+        path: "/dashboard",
+        element: <Dashboard></Dashboard>,
       },
       {
-        path:"/create-slots",
-        element:(
-          <ProtectedRoute adminOnly={true}>
-            <SlotManagement></SlotManagement>
-          </ProtectedRoute>
-        ),
+        path: "/create-rooms",
+        element: <RoomList></RoomList>,
       },
       {
-        path:"/booking-action",
-        element:<BookingsAction></BookingsAction>
+        path: "/create-slots",
+        element: <SlotManagement></SlotManagement>,
       },
       {
-        path:"/my-bookings",
-        element:<MyBookingsPage></MyBookingsPage>
+        path: "/booking-action",
+        element: <BookingsAction></BookingsAction>,
       },
       {
-        path:"/create-admin",
-        element:(
-          <ProtectedRoute adminOnly={true}>
-            <CreateAdmin></CreateAdmin>
-          </ProtectedRoute>
-        ),
+        path: "/my-bookings",
+        element: <MyBookingsPage></MyBookingsPage>,
       },
       {
-        path:"/checkout",
-        element:<CheckoutPage></CheckoutPage>
+        path: "/create-admin",
+        element: <CreateAdmin></CreateAdmin>,
       },
       {
-        path:"*",
-        element:<Page404></Page404>
-      }
+        path: "/checkout",
+        element: <CheckoutPage></CheckoutPage>,
+      },
+      {
+        path: "*",
+        element: <Page404></Page404>,
+      },
     ],
   },
 ]);

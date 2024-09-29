@@ -25,7 +25,7 @@ module.exports = {
       backgroundImage: {
         "hero-pattern": "url('/img/hero-pattern.svg')",
         "footer-texture": "url('/img/footer-texture.png')",
-        "login-bg": "url('./src/assets/images/login-bg (2).jpg')",
+        "login-bg": "url('/src/assets/images/login-bg (2).jpg')",
       },
       animation: {
         "fade-in-float": "fadeInFloat 3s ease-out infinite",

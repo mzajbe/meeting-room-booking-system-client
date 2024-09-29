@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://meeting-room-booking-system-client-u75e.vercel.app/api/",
+    baseUrl: "https://meeting-room-booking-system-server-eight.vercel.app/api/",
     credentials: "include",
   }),
   tagTypes: ['Bookings'],
